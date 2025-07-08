@@ -47,6 +47,7 @@
               color="primary"
               hide-details
               :model-value="i"
+              prefix="±"
               type="number"
               variant="outlined"
               @update:model-value="quickAddScores[index] = Number($event)"
