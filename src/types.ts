@@ -4,3 +4,9 @@ export interface ScoreStateObj {
   color: string
   id: string
 }
+
+export interface ScoreChangeEvent {
+  playerName: string
+  oldScore: number
+  newScore: number
+}

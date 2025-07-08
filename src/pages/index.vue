@@ -6,15 +6,17 @@
       icon="mdi-plus-box"
       @click="addPlayer"
     />
+    <HistoryDisplay :history="history" :score-cards="scoreStateCards" />
     <v-btn icon="mdi-dots-vertical">
       <v-icon>mdi-dots-vertical</v-icon>
-      <v-menu activator="parent">
-        <v-list>
-          <v-list-item class="text-error" prepend-icon="mdi-delete" title="Delete all counters" @click="clearAllConfirm?.reveal" />
-
-        </v-list>
-      </v-menu>
     </v-btn>
+    <v-menu activator="parent" width="200">
+      <v-list>
+        <v-list-item title="Change quick add values" @click="editQuickScore = !editQuickScore" />
+        <v-list-item class="text-error" title="Delete all counters" @click="clearAllConfirm?.reveal" />
+      </v-list>
+    </v-menu>
+
   </v-app-bar>
   <v-main>
     <v-container
@@ -28,6 +30,7 @@
         <ScoreCountCard
           :colors="colors"
           :model-value="scoreCard"
+          :quick-add-scores="quickAddScores"
           @remove="scoreStateCards.splice(i, 1)"
           @update:model-value="scoreStateCards[i] = $event"
         />
@@ -35,12 +38,31 @@
     </v-container>
   </v-main>
   <Confirm ref="clearAllConfirm" message="Are you sure you want to delete all score cards?" title="Delete all" @confirm="scoreStateCards=[]" />
-
+  <v-dialog v-model="editQuickScore" activator="#quickAccessMenuButton" max-width="364">
+    <v-card title="Quick add values">
+      <v-card-text>
+        <v-row dense>
+          <v-col v-for="i, index in quickAddScores" :key="index" cols="4">
+            <v-text-field
+              color="primary"
+              hide-details
+              :model-value="i"
+              type="number"
+              variant="outlined"
+              @update:model-value="quickAddScores[index] = Number($event)"
+            /></v-col>
+        </v-row>
+      </v-card-text></v-card>
+  </v-dialog>
 </template>
 <script setup lang="ts">
   import type { ScoreStateObj } from '@/types'
+  import { useDebouncedRefHistory, useLocalStorage } from '@vueuse/core'
   import { randomNames } from '@/data'
-  const scoreStateCards = ref<ScoreStateObj[]>([])
+
+  const editQuickScore = ref(false)
+  const scoreStateCards = useLocalStorage<ScoreStateObj[]>('scoreState', [])
+  const { history } = useDebouncedRefHistory(scoreStateCards, { deep: true, debounce: 1000 })
 
   const clearAllConfirm = useTemplateRef('clearAllConfirm')
   const addPlayer = () => {
@@ -51,6 +73,14 @@
       id: crypto.randomUUID(),
     })
   }
+  const quickAddScores = ref<number[]>([
+    10,
+    15,
+    25,
+    50,
+    100,
+    200,
+  ])
   const colors = [
     '#F44336',
     '#E91E63',

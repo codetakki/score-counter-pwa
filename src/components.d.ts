@@ -11,6 +11,7 @@ declare module 'vue' {
     ColorPalletInput: typeof import('./components/ColorPalletInput.vue')['default']
     Confirm: typeof import('./components/Confirm.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    HistoryDisplay: typeof import('./components/HistoryDisplay.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     ScoreCountCard: typeof import('./components/ScoreCountCard.vue')['default']
