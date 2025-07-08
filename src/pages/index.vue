@@ -9,13 +9,13 @@
     <HistoryDisplay :history="history" :score-cards="scoreStateCards" />
     <v-btn icon="mdi-dots-vertical">
       <v-icon>mdi-dots-vertical</v-icon>
+      <v-menu activator="parent">
+        <v-list>
+          <v-list-item title="Change quick add values" @click="editQuickScore = !editQuickScore" />
+          <v-list-item class="text-error" title="Delete all counters" @click="clearAllConfirm?.reveal" />
+        </v-list>
+      </v-menu>
     </v-btn>
-    <v-menu activator="parent" width="200">
-      <v-list>
-        <v-list-item title="Change quick add values" @click="editQuickScore = !editQuickScore" />
-        <v-list-item class="text-error" title="Delete all counters" @click="clearAllConfirm?.reveal" />
-      </v-list>
-    </v-menu>
 
   </v-app-bar>
   <v-main>
