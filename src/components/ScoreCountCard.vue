@@ -24,7 +24,7 @@
         <v-dialog activator="parent">
           <template #default="{isActive}">
             <v-card>
-              <v-card-title class="d-flex align-center">
+              <v-card-title class="d-flex align-center" :style="{'background-color': scoreCard.color}">
                 Edit<v-spacer />
                 <v-btn
                   color="error"
@@ -38,6 +38,11 @@
                 <v-text-field
                   v-model="scoreCard.playerName"
                   label="Name"
+                />
+                <v-text-field
+                  v-model.number="scoreCard.score"
+                  label="Score"
+                  type="number"
                 />
                 <color-pallet-input
                   v-model="scoreCard.color"

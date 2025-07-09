@@ -1,6 +1,25 @@
 <template>
   <v-app-bar density="comfortable">
-    <v-app-bar-title> 🏆️ {{ leadingScoreCard?.playerName || leadingScoreCard?.playerName }}</v-app-bar-title>
+    <v-app-bar-title>
+      <div style="width: min-content;">
+        <span v-if="scoreMode === 'high'">📈 {{ leadingScoreCard?.playerName }}</span>
+        <span v-else-if="scoreMode==='low'">📉 {{ lastScoreCard?.playerName }}</span>
+        <span v-else-if="scoreMode==='sum'">Σ {{ totalScore }}</span>
+        <v-menu activator="parent">
+          <v-list width="200">
+            <v-list-subheader>Choose winner</v-list-subheader>
+            <v-list-item
+              v-for="{title, value} in scoringModes"
+              :key="value"
+              :active="scoreMode === value"
+              :title="title"
+              :value="value"
+              @click="scoreMode = value"
+            />
+          </v-list>
+        </v-menu>
+      </div>
+    </v-app-bar-title>
     <v-spacer />
     <v-btn
       icon="mdi-plus-box"
@@ -12,6 +31,7 @@
       <v-menu activator="parent">
         <v-list>
           <v-list-item title="Change quick add values" @click="editQuickScore = !editQuickScore" />
+          <v-list-item class="text-error" title="Reset scores" @click="resetScores" />
           <v-list-item class="text-error" title="Delete all counters" @click="clearAllConfirm?.reveal" />
         </v-list>
       </v-menu>
@@ -74,7 +94,7 @@
       id: crypto.randomUUID(),
     })
   }
-  const quickAddScores = ref<number[]>([
+  const quickAddScores = useLocalStorage<number[]>('quickAddScores', [
     10,
     15,
     25,
@@ -111,10 +131,19 @@
     const randomIndex = Math.floor(Math.random() * pickAbleColors.length)
     return pickAbleColors[randomIndex]
   }
+  const scoringModes = [{ title: '📈 Highest', value: 'high' }, { title: '📉 Lowest', value: 'low' }, { title: 'Σ Total player sum', value: 'sum' }] as const
+  const scoreMode = useLocalStorage<'high' | 'low' | 'sum'>('scoreMode', 'high')
+
   const leadingScoreCard = computed(() => {
     const highestScore = Math.max(...scoreStateCards.value.map(s => s.score))
     return scoreStateCards.value.find(s => s.score === highestScore)
   })
+  const lastScoreCard = computed(() => {
+    const highestScore = Math.min(...scoreStateCards.value.map(s => s.score))
+    return scoreStateCards.value.find(s => s.score === highestScore)
+  })
+  const totalScore = computed(() => scoreStateCards.value.reduce((acc, curr) => acc + curr.score, 0))
+
   const pickRandomName = () => {
     const pickAbleNames = randomNames.en.filter(n => !scoreStateCards.value.map(s => s.playerName).includes(n))
     if (pickAbleNames.length === 0) {
@@ -123,5 +152,11 @@
     }
     const randomIndex = Math.floor(Math.random() * pickAbleNames.length)
     return pickAbleNames[randomIndex]
+  }
+
+  const resetScores = () => {
+    for (const entry of scoreStateCards.value) {
+      entry.score = 0
+    }
   }
 </script>
