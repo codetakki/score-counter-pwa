@@ -8,6 +8,7 @@ import { VueRouterAutoImports } from 'unplugin-vue-router'
 import VueRouter from 'unplugin-vue-router/vite'
 // Utilities
 import { defineConfig } from 'vite'
+import { VitePWA } from 'vite-plugin-pwa'
 
 import Layouts from 'vite-plugin-vue-layouts-next'
 import Vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
@@ -26,6 +27,8 @@ export default defineConfig({
         {
           pinia: ['defineStore', 'storeToRefs'],
         },
+        VitePWA({ registerType: 'autoUpdate' }),
+
       ],
       dts: 'src/auto-imports.d.ts',
       eslintrc: {
