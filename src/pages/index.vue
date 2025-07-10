@@ -33,6 +33,9 @@
           <v-list-item title="Change quick add values" @click="editQuickScore = !editQuickScore" />
           <v-list-item class="text-error" title="Reset scores" @click="resetScores" />
           <v-list-item class="text-error" title="Delete all counters" @click="clearAllConfirm?.reveal" />
+          <v-divider />
+          <v-list-item title="About" to="/about" />
+
         </v-list>
       </v-menu>
     </v-btn>
@@ -40,6 +43,7 @@
   </v-app-bar>
   <v-main>
     <v-container
+      v-if="scoreStateCards.length > 0"
       class="d-flex flex-column ga-2"
       style="height: 100%"
     >
@@ -56,8 +60,17 @@
         />
       </template>
     </v-container>
+    <v-container v-else class="d-flex justify-center align-center h-100 text-center">
+      <div class="text-medium-emphasis">Add players with the <v-icon>mdi-plus-box</v-icon></div>
+    </v-container>
   </v-main>
-  <Confirm ref="clearAllConfirm" message="Are you sure you want to delete all score cards?" title="Delete all" @confirm="scoreStateCards=[]" />
+  <Confirm
+    ref="clearAllConfirm"
+    message="Are you sure you want to delete all score cards?"
+    no-button
+    title="Delete all"
+    @confirm="scoreStateCards=[]"
+  />
   <v-dialog v-model="editQuickScore" activator="#quickAccessMenuButton" max-width="364">
     <v-card title="Quick add values">
       <v-card-text>
@@ -91,9 +104,15 @@
       playerName: pickRandomName(),
       score: 0,
       color: pickRandomColor(),
-      id: crypto.randomUUID(),
+      id: uuid(),
     })
   }
+  const uuid = () =>
+    'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+      const r = Math.trunc(Math.random() * 16)
+      const v = c === 'x' ? r : (r & 0x3 | 0x8)
+      return v.toString(16)
+    })
   const quickAddScores = useLocalStorage<number[]>('quickAddScores', [
     10,
     15,

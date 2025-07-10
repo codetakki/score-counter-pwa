@@ -20,6 +20,36 @@ export default defineConfig({
       dts: 'src/typed-router.d.ts',
     }),
     Layouts(),
+    VitePWA({ registerType: 'autoUpdate', devOptions: { enabled: true }, manifest: {
+      name: 'Score Counter',
+      short_name: 'Score Counter',
+      description: 'A simple score counter application',
+      theme_color: '#1976D2',
+      icons: [
+        {
+          src: 'src/assets/pwa-64x64.png',
+          sizes: '64x64',
+          type: 'image/png',
+          purpose: 'any',
+        },
+        {
+          src: 'src/assets/pwa-192x192.png',
+          sizes: '192x192',
+          type: 'image/png',
+        },
+        {
+          src: 'src/assets/pwa-512x512.png',
+          sizes: '512x512',
+          type: 'image/png',
+        },
+        {
+          src: 'src/assets/maskable-icon-512x512.png',
+          sizes: '512x512',
+          type: 'image/png',
+          purpose: 'maskable',
+        },
+      ],
+    } }),
     AutoImport({
       imports: [
         'vue',
@@ -27,8 +57,6 @@ export default defineConfig({
         {
           pinia: ['defineStore', 'storeToRefs'],
         },
-        VitePWA({ registerType: 'autoUpdate' }),
-
       ],
       dts: 'src/auto-imports.d.ts',
       eslintrc: {

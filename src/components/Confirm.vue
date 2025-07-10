@@ -5,6 +5,7 @@
     :reveal="reveal"
   >
     <v-btn
+      v-if="!noButton"
       v-bind="$attrs"
       @click="reveal"
     >
@@ -61,6 +62,10 @@
     label: {
       type: String,
       default: '',
+    },
+    noButton: {
+      type: Boolean,
+      default: false,
     },
   })
 
