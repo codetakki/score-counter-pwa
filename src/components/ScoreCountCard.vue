@@ -70,12 +70,12 @@
         style="justify-content: left;"
         @click="scoreCard.score--"
       />
-
       <div
-        class="text-h1 text-center pa-3"
-        style="position: absolute; z-index: 1;"
+        class="text-center pa-3"
+        style="position: absolute; z-index: -1; max-width: 80%;"
+        :style="{'font-size': `${Math.max(1.7, 6 - (scoreCard.score.toString().length * 0.35))}rem`}"
       >
-        <b>{{ scoreCard.score }}</b>
+        <b>{{ scoreCard.score > 10000000 ? scoreCard.score.toExponential() : scoreCard.score }}</b>
 
       </div>
       <div
