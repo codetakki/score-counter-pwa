@@ -1,13 +1,13 @@
 <template>
   <v-app-bar density="comfortable">
     <v-app-bar-title>
-      <div style="width: min-content;">
-        <span v-if="scoreMode === 'high'">📈 {{ leadingScoreCard?.playerName }}</span>
-        <span v-else-if="scoreMode==='low'">📉 {{ lastScoreCard?.playerName }}</span>
-        <span v-else-if="scoreMode==='sum'">Σ {{ totalScore }}</span>
+      <div>
+        <span v-if="scoreMode === 'high'"  class="text-truncate ">📈 {{ leadingScoreCard?.playerName }}</span>
+        <span v-else-if="scoreMode==='low'"  class="text-truncate">📉 {{ lastScoreCard?.playerName }}</span>
+        <span v-else-if="scoreMode==='sum'"  class="text-truncate">Σ {{ totalScore }}</span>
         <v-menu activator="parent">
           <v-list width="200">
-            <v-list-subheader>Choose winner</v-list-subheader>
+            <v-list-subheader>What to show</v-list-subheader>
             <v-list-item
               v-for="{title, value} in scoringModes"
               :key="value"
@@ -20,7 +20,6 @@
         </v-menu>
       </div>
     </v-app-bar-title>
-    <v-spacer />
     <v-btn
       icon="mdi-plus-box"
       @click="addPlayer"
@@ -150,7 +149,7 @@
     const randomIndex = Math.floor(Math.random() * pickAbleColors.length)
     return pickAbleColors[randomIndex]
   }
-  const scoringModes = [{ title: '📈 Highest', value: 'high' }, { title: '📉 Lowest', value: 'low' }, { title: 'Σ Total player sum', value: 'sum' }] as const
+  const scoringModes = [{ title: '📈 Highest score', value: 'high' }, { title: '📉 Lowest score', value: 'low' }, { title: 'Σ Total player score', value: 'sum' }] as const
   const scoreMode = useLocalStorage<'high' | 'low' | 'sum'>('scoreMode', 'high')
 
   const leadingScoreCard = computed(() => {
