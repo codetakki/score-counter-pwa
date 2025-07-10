@@ -6,7 +6,7 @@
     max-height="200"
   >
     <div
-      class="text-h5 text-right"
+      class="text-h5 d-flex justify-space-between"
       :style="{
         'background-color': lightenColor(scoreCard.color)
       }"
@@ -14,6 +14,7 @@
       <div class="text-center position-absolute w-100">
         {{ scoreCard.playerName }}
       </div>
+      <v-spacer />
       <v-btn
         color="transparent"
         density="comfortable"
@@ -69,16 +70,30 @@
         style="justify-content: left;"
         @click="scoreCard.score--"
       />
+
       <div
         class="text-h1 text-center pa-3"
         style="position: absolute; z-index: 1;"
-        @click.stop="console.log('click score')"
       >
         <b>{{ scoreCard.score }}</b>
+
+      </div>
+      <div
+        style="position: absolute; z-index: 1; height: 75%; width: 75px;"
+        @click.stop="console.log('click score')"
+      >
         <v-dialog v-model="scoreDialog" activator="parent" max-width="364">
           <v-card :color="scoreCard.color">
             <v-card-title class="text-center">{{ `${scoreCard.playerName}: ${scoreCard.score}` }}</v-card-title>
             <v-card-text class="bg-surface">
+              <v-btn-toggle v-model="scoreMode" class="border border-md border-opacity-100 border-primary mb-2 d-flex ">
+                <v-btn class="w-50" value="-">
+                  <v-icon>mdi-minus</v-icon>
+                </v-btn>
+                <v-btn class="w-50" value="+">
+                  <v-icon>mdi-plus</v-icon>
+                </v-btn>
+              </v-btn-toggle>
               <v-row dense>
                 <v-col v-for="i in quickAddScores" :key="i" cols="">
                   <v-btn
@@ -90,14 +105,7 @@
                 </v-col>
               </v-row>
               <div class="d-flex align-center mt-4 ga-2">
-                <v-btn-toggle v-model="scoreMode" class="border border-md border-opacity-100 border-primary">
-                  <v-btn value="-">
-                    <v-icon>mdi-minus</v-icon>
-                  </v-btn>
-                  <v-btn value="+">
-                    <v-icon>mdi-plus</v-icon>
-                  </v-btn>
-                </v-btn-toggle>
+
                 <v-text-field
                   v-model.number="freeScore"
                   class="text-center"
@@ -156,6 +164,10 @@
         100,
         200,
       ],
+    },
+    lastUpdated: {
+      type: Boolean,
+      default: false,
     },
   })
   const scoreCard = defineModel<ScoreStateObj>('modelValue', { required: true })
