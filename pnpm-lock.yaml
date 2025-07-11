@@ -8,9 +8,9 @@ importers:
 
   .:
     dependencies:
-      '@fontsource/roboto':
-        specifier: 5.2.5
-        version: 5.2.5
+      '@fontsource/roboto-mono':
+        specifier: ^5.2.1
+        version: 5.2.6
       '@mdi/font':
         specifier: 7.4.47
         version: 7.4.47
@@ -832,8 +832,8 @@ packages:
     resolution: {integrity: sha512-1+WqvgNMhmlAambTvT3KPtCl/Ibr68VldY2XY40SL1CE0ZXiakFR/cbTspaF5HsnpDMvcYYoJHfl4980NBjGag==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@fontsource/roboto@5.2.5':
-    resolution: {integrity: sha512-70r2UZ0raqLn5W+sPeKhqlf8wGvUXFWlofaDlcbt/S3d06+17gXKr3VNqDODB0I1ASme3dGT5OJj9NABt7OTZQ==}
+  '@fontsource/roboto-mono@5.2.6':
+    resolution: {integrity: sha512-fLCa3zs9XruKE8Fdbq0UWB0wqTi5dzi09QsnW7HgTwwnSVDZ3nH+X7Qg7l0yeIZs+E472cKE3RUD21ZnaXk4Zg==}
 
   '@humanfs/core@0.19.1':
     resolution: {integrity: sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA==}
@@ -4415,7 +4415,7 @@ snapshots:
       '@eslint/core': 0.15.1
       levn: 0.4.1
 
-  '@fontsource/roboto@5.2.5': {}
+  '@fontsource/roboto-mono@5.2.6': {}
 
   '@humanfs/core@0.19.1': {}
 
